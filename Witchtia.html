@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Witchtia | Tarot Reader</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css" />
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.min.js" defer></script>
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- About -->
+    <section id="about" class="h-full w-full border-box transition-all duration-500 linear relative" style="background-image: linear-gradient(to bottom, rgba(39, 59, 86, 1), rgba(36, 49, 66, 1))">
+      <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+        .header-3-1 .card {
+          background-color: #f5f5f5;
+          transition: 0.4s;
+          top: 0px;
+          left: 0px;
+          position: relative;
+        }
+
+        .header-3-1 .card:hover {
+          top: -3px;
+          left: -3px;
+          position: relative;
+          transition: 0.4s;
+        }
+
+        .header-3-1 .btn-sign,
+        .header-3-1 .nav-text,
+        .header-3-1 .caption-text {
+          color: #e8f1ff;
+          transition: 0.2s;
+        }
+
+        .header-3-1 .bg-white-1 {
+          background-color: #e8f1ff;
+        }
+
+        .header-3-1 .btn-sign:hover {
+          color: #ffffff;
+          transition: 0.3s;
+        }
+
+        .header-3-1 .btn-outline:hover {
+          border: 1px solid #ff7468;
+          color: #ff7468;
+          transition: 0.3s;
+        }
+
+        .header-3-1 .navigation .active {
+          position: relative;
+          padding-bottom: 3px;
+          padding-top: 3px;
+          transition: 0.3s;
+        }
+
+        .header-3-1 .navigation .active:before {
+          content: "";
+          position: absolute;
+          margin-left: auto;
+          margin-right: auto;
+          left: 0;
+          right: 0;
+          text-align: center;
+          bottom: 0;
+          height: 0px;
+          width: 80%;
+          border-bottom: 2px solid #fecd70;
+          transition: 0.3s;
+        }
+
+        .header-3-1 .btn-fill {
+          border: 1px solid #fecd70;
+          background-color: #fecd70;
+          transition: 0.3s;
+        }
+
+        .header-3-1 .btn-fill:hover {
+          background-color: #fcb229;
+          border: 1px solid #fecd70;
+          transition: 0.3s;
+        }
+
+        .header-3-1 .btn-outline {
+          border: 1px solid #5d6e86;
+          color: #5d6e86;
+          transition: 0.3s;
+        }
+
+        .header-3-1 .btn-outline:hover div path {
+          fill: #ff7468;
+        }
+
+        .header-3-1 .btn-outline:hover div rect {
+          stroke: #ff7468;
+        }
+
+        .header-3-1 .navigation a:hover {
+          color: #ffffff !important;
+          font-weight: 500;
+          transition: 0.3s;
+        }
+
+        .header-3-1 #form {
+          width: 100%;
+        }
+
+        .header-3-1 #form input[type="text"] {
+          width: 100%;
+          background-color: #e8f1ff;
+          box-sizing: border-box;
+          font-size: 14px;
+          padding: 0.375rem 0.5rem;
+          -webkit-transition: all 0.4s ease-in-out;
+          transition: all 0.4s ease-in-out;
+        }
+
+        .header-3-1 .search-icon:hover path {
+          fill: #ffffff;
+        }
+
+        .header-3-1 .title-font {
+          color: #fefefe;
+          line-height: 1.25;
+        }
+
+        .header-3-1 .text-gray-1 {
+          color: #aaa6a6;
+        }
+
+        @media (max-width: 1023px) {
+          .header-3-1 .backdrop-background {
+            background-image: linear-gradient(to bottom right, rgba(39, 59, 86, 1), rgba(36, 49, 66, 1));
+          }
+
+          .header-3-1 #form input[type="text"] {
+            width: 100%;
+          }
+        }
+
+        @media (min-width: 1024px) {
+          .header-3-1 .center-search {
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+          }
+
+          .header-3-1 #form {
+            width: 320px;
+          }
+        }
+      </style>
+      <!-- Navbar -->
+      <div class="header-3-1" style="font-family: 'Poppins', sans-serif">
+        <header x-data="{ open: false }" class="w-full grid grid-cols-1 lg:grid-cols-3 py-8 lg:px-24 md:px-16 sm:px-8 px-8">
+          <div class="flex items-center justify-between">
+            <a href="#">
+              <img class="rounded-full" src="images/logo.jpeg" width="100px" alt="" />
+            </a>
+            <div class="flex justify-end items-center lg:hidden cursor-pointer">
+              <svg class="w-6 h-6" @click="open = !open" fill="none" stroke="#FFFFFF" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+              </svg>
+            </div>
+          </div>
+          <!-- Backdrop -->
+          <!-- Backdop  -->
+          <div :class="{'hidden': !open}" class="bg-white fixed hidden w-full h-full top-0 left-0 z-30 bg-opacity-60" @click="open = !open"></div>
+          <nav
+            :class="{'flex': open, 'hidden': !open}"
+            class="hidden z-50 fixed left-3 right-3 rounded-md shadow-md flex-col p-8 justify-center navigation items-start lg:shadow-none lg:bg-transparent lg:p-0 lg:items-center lg:flex lg:flex-row lg:relative lg:space-x-7 backdrop-background"
+          >
+            <a href="#">
+              <img class="m-0 lg:hidden mb-3 rounded-full" src="images/logo.jpeg" width="100px" alt="" />
+            </a>
+            <a href="#about" class="nav-text text-sm text-white font-medium mx-0 lg:mx-5 my-4 lg:my-0 relative active">About</a>
+            <a href="#benefit" class="nav-text text-sm font-light mx-0 lg:mx-5 my-4 lg:my-0 relative">Benefit</a>
+            <a href="#services" class="nav-text text-sm font-light mx-0 lg:mx-5 my-4 lg:my-0 relative">Services</a>
+            <a href="#step" class="nav-text text-sm font-light mx-0 lg:mx-5 my-4 lg:my-0 relative">Step</a>
+            <!-- <a href="#" class="nav-text text-sm font-light mx-0 lg:mx-5 my-4 lg:my-0 relative">Order</a> -->
+            <!-- <div class="mx-0 lg:mx-5 my-4 lg:my-0" x-data="{ search: false }">
+              <svg @click="search = !search" class="hidden cursor-pointer search-icon" :class="{'flex': !search, 'hidden': search}" width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M5.85 1.69346C3.5304 1.69346 1.65 3.57386 1.65 5.89346C1.65 8.21305 3.5304 10.0935 5.85 10.0935C8.1696 10.0935 10.05 8.21305 10.05 5.89346C10.05 3.57386 8.1696 1.69346 5.85 1.69346ZM0.25 5.89346C0.25 2.80066 2.75721 0.293457 5.85 0.293457C8.94279 0.293457 11.45 2.80066 11.45 5.89346C11.45 8.98625 8.94279 11.4935 5.85 11.4935C2.75721 11.4935 0.25 8.98625 0.25 5.89346Z"
+                  fill="#E8F1FF"
+                />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M8.85503 8.89848C9.12839 8.62512 9.57161 8.62512 9.84497 8.89848L14.045 13.0985C14.3183 13.3718 14.3183 13.8151 14.045 14.0884C13.7716 14.3618 13.3284 14.3618 13.055 14.0884L8.85503 9.88843C8.58166 9.61506 8.58166 9.17185 8.85503 8.89848Z"
+                  fill="#E8F1FF"
+                />
+              </svg>
+              <form method="" name="search" id="form" :class="{'flex lg:absolute center-search': search, 'hidden': !search}" class="bg-white-1 hidden items-center rounded-full focus:outline-none px-3">
+                <input name="search" type="text" class="rounded-full focus:outline-none" placeholder="Search" />
+                <button type="button">
+                  <svg @click="search = !search" style="width: 20px; height: 20px" class="focus:outline-none cursor-pointer" fill="none" stroke="#273B56" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                  </svg>
+                </button>
+              </form>
+            </div> -->
+            <!-- <div class="flex items-center justify-end w-full lg:hidden mt-3">
+              <button class="btn-sign text-sm font-medium py-3 px-8 focus:outline-none">Sign In</button>
+              <button class="btn-fill text-sm text-white font-medium py-3 px-8 rounded-full focus:outline-none">Register</button>
+            </div> -->
+            <svg @click="open = !open" class="w-6 h-6 absolute top-4 right-4 cursor-pointer lg:hidden" fill="none" stroke="#FFFFFF" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </nav>
+          <div class="hidden items-center justify-end lg:flex">
+            <!-- <button class="btn-sign text-sm font-medium py-3 px-8 focus:outline-none">Sign In</button> -->
+            <button class="btn-fill text-white font-medium text-sm py-3 px-6 rounded-full focus:outline-none"><a href="#services">Find Peace</a></button>
+          </div>
+        </header>
+        <div class="lg:px-24 md:px-16 sm:px-8 px-8">
+          <!-- <hr style="border-color: #2e425c" /> -->
+        </div>
+
+        <!-- Hero -->
+        <div>
+          <div class="mx-auto flex pt-16 pb-16 lg:pb-20 lg:px-24 md:px-16 sm:px-8 px-8 lg:flex-row flex-col">
+            <!-- Left Column -->
+            <div class="lg:flex-grow lg:w-1/2 flex flex-col lg:items-start lg:text-left mb-3 md:mb-12 lg:mb-0 items-center text-center">
+              <h1 class="title-font sm:text-5xl lg:text-6xl text-4xl mb-5 font-semibold">
+                WitchTia<br class="lg:block hidden" />
+                <span style="color: #fecd70"> Tarot Reading</span><br class="lg:block hidden" />
+              </h1>
+              <p class="caption-text text-base font-light leading-6 tracking-wide mb-12 lg:mb-20">
+                Peace, tranquility and happiness lie within you.<br class="sm:block hidden" />
+                We are here to help you realize that.
+              </p>
+              <div class="md:flex contents items-center mx-auto lg:mx-0 lg:flex justify-center lg:space-x-8 md:space-x-2 space-x-0">
+                <button class="btn-fill inline-flex font-semibold text-white text-base py-4 px-8 rounded-full mb-4 lg:mb-0 md:mb-0 focus:outline-none"><a href="#services">Find Peace</a></button>
+                <button class="btn-outline font-normal text-base py-4 px-6 rounded-full focus:outline-none bg-transparent">
+                  <!-- <div class="flex items-center">
+                    <svg class="mr-2.5" width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M16.1793 13.7935L11.9166 10.9515V16.6355L16.1793 13.7935ZM18.1673 14.0708L11.1013 18.7815C11.0511 18.8149 10.9928 18.834 10.9326 18.8369C10.8723 18.8398 10.8125 18.8263 10.7593 18.7978C10.7062 18.7694 10.6617 18.727 10.6307 18.6753C10.5997 18.6236 10.5833 18.5644 10.5833 18.5041V9.0828C10.5833 9.0225 10.5997 8.96334 10.6307 8.91162C10.6617 8.8599 10.7062 8.81756 10.7593 8.7891C10.8125 8.76064 10.8723 8.74713 10.9326 8.75001C10.9928 8.7529 11.0511 8.77206 11.1013 8.80546L18.1673 13.5161C18.213 13.5466 18.2504 13.5878 18.2763 13.6362C18.3022 13.6846 18.3157 13.7386 18.3157 13.7935C18.3157 13.8483 18.3022 13.9024 18.2763 13.9507C18.2504 13.9991 18.213 14.0404 18.1673 14.0708Z"
+                        fill="#5D6E86"
+                      />
+                      <rect x="0.75" y="1.29346" width="25" height="25" rx="12.5" stroke="#5D6E86" />
+                    </svg>
+                    Watch the video
+                  </div> -->
+                </button>
+              </div>
+            </div>
+            <!-- Right Column -->
+            <div class="w-full lg:w-1/2 text-center lg:justify-start justify-center flex pr-0">
+              <img class="lg:absolute lg:block hidden bottom-0 right-0" src="http://api.elements.buildwithangga.com/storage/files/2/assets/Header/Header3/Header-3-1.png" alt="" />
+              <img class="absolute bottom-0 lg:block hidden lg:right-26 md:right-18 sm:right-8 right-5 min-h-fit" width="600px" src="images/fat.png" alt="" />
+              <div class="flex items-end lg:pl-16 pl-0" style="z-index: 1">
+                <div class="container mx-auto flex flex-wrap items-center">
+                  <div class="card rounded-xl p-5 flex flex-col md:ml-auto w-full mt-10 md:mt-0 space-y-5">
+                    <div class="flex items-center space-x-4">
+                      <div>
+                        <img class="rounded-full" src="images/fat-2.jpeg" width="60px" alt="" />
+                      </div>
+                      <div class="text-left">
+                        <p class="font-semibold text-base mb-1">Fathia Jahzi</p>
+                        <p class="font-light text-xs text-gray-1">Tarot Reader</p>
+                      </div>
+                    </div>
+                    <!-- <div class="grid grid-cols-2 text-left">
+                      <div>
+                        <p class="font-medium text-base mb-0.5" style="color: #4e91f9">64,100</p>
+                        <p class="font-light text-xs text-gray-1">Followers</p>
+                      </div>
+                      <div>
+                        <p class="font-medium text-base mb-0.5" style="color: #1b8171">106</p>
+                        <p class="font-light text-xs text-gray-1">Reviews</p>
+                      </div>
+                    </div> -->
+                    <button class="btn-fill font-semibold text-white text-base py-3 px-16 mb-0.5 rounded-xl"><a href="#services">Contact Me</a></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Benefit -->
+    <section id="benefit" class="h-full w-full border-box bg-white" style="background-color: #141432">
+      <style scoped>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+        .content-2-3 .btn-outline {
+          border: 1px solid #707092;
+          color: #707092;
+          transition: 0.2s;
+        }
+
+        .text-color {
+          color: #fecd70;
+        }
+
+        .content-2-3 .btn-outline:hover {
+          border: 1px solid #ffffff;
+          color: #ffffff;
+          transition: 0.2s;
+        }
+
+        .content-2-3 .card-header {
+          background-color: #292952;
+          border: 1px solid #4c4c6d;
+        }
+
+        .content-2-3 .btn-fill {
+          background-color: #524eee;
+          transition: 0.2s;
+        }
+
+        .content-2-3 .btn-fill:hover {
+          --tw-shadow: inset 0 0px 25px 0 rgba(20, 20, 50, 0.7);
+          box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+          transition: 0.2s;
+        }
+
+        .content-2-3 .text-purple {
+          color: #707092;
+        }
+      </style>
+      <div class="content-2-3" style="font-family: 'Poppins', sans-serif">
+        <div class="container lg:px-32 md:px-8 sm:px-12 px-5 pt-20 pb-12 mx-auto">
+          <!-- Title Text -->
+          <div class="flex flex-col text-center w-full mb-12">
+            <h1 class="text-4xl font-semibold title-font mb-2.5 text-white">Benefit</h1>
+            <h2 class="text-base font-light title-font mx-12 lg:w-full md:w-full sm:w-3/6 sm:mx-auto text-purple">By consulting with us, you will get several benefits such as</h2>
+          </div>
+
+          <!-- 3-Column -->
+          <div class="flex lg:flex-row flex-col -m-4">
+            <div class="px-14 md:px-0 lg:px-4 lg:w-1/3 md:w-1/3 sm:w-4/6 mx-auto">
+              <div class="flex rounded-lg h-full lg:pt-8 lg:pb-8 md:pt-8 md:pb-8 pt-4 pb-12 flex-col">
+                <div class="items-center text-center">
+                  <div class="inline-flex items-center justify-center rounded-full mb-6">
+                    <img src="http://api.elements.buildwithangga.com/storage/files/2/assets/Content/Content2/Content-2-8.png" alt="" />
+                  </div>
+                </div>
+                <div class="flex-grow">
+                  <h4 class="font-medium text-center text-2xl mb-2.5 text-color">Problem Consultation</h4>
+                  <p class="leading-relaxed text-base text-center tracking-wide text-purple">We try to always provide the best <br />advice according to your circumstances</p>
+                </div>
+              </div>
+            </div>
+            <div class="px-14 md:px-0 lg:px-4 lg:w-1/3 md:w-1/3 sm:w-4/6 mx-auto">
+              <div class="flex rounded-lg h-full lg:pt-8 lg:pb-8 md:pt-8 md:pb-8 pt-12 pb-12 flex-col">
+                <div class="items-center text-center">
+                  <div class="inline-flex items-center justify-center rounded-full mb-6">
+                    <img src="http://api.elements.buildwithangga.com/storage/files/2/assets/Content/Content2/Content-2-9.png" alt="" />
+                  </div>
+                </div>
+                <div class="flex-grow">
+                  <h4 class="font-medium text-center text-2xl mb-2.5 text-color">Mental Health Care</h4>
+                  <p class="leading-relaxed text-base text-center tracking-wide text-purple">Our hope is that you get peace of mind and positive spiritual service</p>
+                </div>
+              </div>
+            </div>
+            <div class="px-14 md:px-0 lg:px-4 lg:w-1/3 md:w-1/3 sm:w-4/6 mx-auto">
+              <div class="flex rounded-lg h-full lg:pt-8 lg:pb-8 md:pt-8 md:pb-8 pt-12 pb-6 flex-col">
+                <div class="items-center text-center">
+                  <div class="inline-flex items-center justify-center rounded-full mb-6">
+                    <img src="http://api.elements.buildwithangga.com/storage/files/2/assets/Content/Content2/Content-2-10.png" alt="" />
+                  </div>
+                </div>
+                <div class="flex-grow">
+                  <h4 class="font-medium text-center text-2xl mb-2.5 text-color">Sharing Friend</h4>
+                  <p class="leading-relaxed text-base text-center tracking-wide text-purple">sometimes a confidant friend is the solution for you</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="lg:px-24 md:px-16 sm:px-8 px-4 pb-20 pt-12 mx-auto">
+          <div class="flex lg:flex-row flex-col -m-4">
+            <div class="p-4 w-full">
+              <div class="card-header h-full flex lg:flex-row flex-col p-7 rounded-xl lg:space-x-3.5 md:space-x-3.5 space-x-0">
+                <div class="text-center mx-auto">
+                  <img src="http://api.elements.buildwithangga.com/storage/files/2/assets/Content/Content2/Content-2-1%20(1).png" alt="" />
+                </div>
+                <div class="flex-grow my-auto lg:text-left lg:w-3/4 w-full lg:text-left text-center lg:my-auto md:my-auto py-6">
+                  <h4 class="text-2xl font-semibold mb-2.5 text-white">Fast Business Management in 30 minutes</h4>
+                  <p class="text-base font-light tracking-wide w-full text-purple">
+                    Our tools for business analysis helps an organization understand<br class="lg:block hidden" />
+                    market or business development.
+                  </p>
+                </div>
+                <a class="inline-block items-center my-auto text-center">
+                  <button class="btn-fill font-bold text-white text-base py-4 lg:w-full md:w-full sm:w-2/3 w-full rounded-xl mb-4 md:mb-5 lg:mb-5 focus:outline-none">Buy Now</button>
+                  <button class="btn-outline font-normal text-black font-normal text-base py-4 lg:w-full md:w-full sm:w-2/3 w-full px-6 rounded-xl focus:outline-none bg-transparent rounded hover:border-transparent">Demo Version</button>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div> -->
+      </div>
+    </section>
+    <!-- Services -->
+    <section id="services" class="h-full w-full border-box xl:px-36 lg:px-30 md:px-14 sm:px-8 px-8 pt-20 pb-28 transition-all duration-500 linear" style="background-color: #f2f6ff">
+      <style scoped>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+        .content-3-7 .card-outline {
+          border: 1px solid #e5ebf9;
+        }
+
+        .content-3-7 .card {
+          transition: 0.4s;
+          top: 0px;
+
+          left: 0px;
+          position: relative;
+        }
+
+        .content-3-7 .card:hover {
+          top: -3px;
+          left: -3px;
+          position: relative;
+          transition: 0.4s;
+        }
+
+        .content-3-7 .btn-outline {
+          border: 1px solid #fecd70;
+          color: #fecd70;
+        }
+
+        .content-3-7 .btn-outline:hover {
+          background-color: #fcb229;
+          color: #ffffff;
+        }
+
+        .content-3-7 .btn-fill {
+          background-color: #fecd70;
+          /* background-image: linear-gradient(rgba(91, 203, 173, 1), rgba(39, 194, 153, 1)); */
+        }
+
+        .content-3-7 .btn-fill:hover {
+          background-color: #fcb229;
+          /* background-image: linear-gradient(#29b18d, #29b18d); */
+        }
+
+        .content-3-7 .price-list-3-7 .no-check-3-7 {
+          color: #e1e1e1;
+        }
+
+        .content-3-7 .price-list-3-7 .check-3-7,
+        .content-3-7 .text-medium-black {
+          color: #2e3a53;
+        }
+
+        .content-3-7 .bg-medium-black {
+          background-color: #2e3a53;
+        }
+
+        .content-3-7 .text-medium-white {
+          color: #c3c3c8;
+        }
+
+        .content-3-7 .caption {
+          color: #8e8fad;
+        }
+
+        .content-3-7 .price-title {
+          color: #141c2e;
+        }
+
+        .content-3-7 .price-month {
+          color: #9e9e9e;
+        }
+      </style>
+      <div class="content-3-7 overflow-hidden" style="font-family: 'Poppins', sans-serif">
+        <div class="container mx-auto">
+          <div class="flex flex-col text-center w-full mb-9">
+            <h2 class="sm:text-4xl text-3xl tracking-wider font-extrabold title-font mb-3 text-medium-black">Services</h2>
+            <p class="lg:w-2/3 mx-auto tracking-wide text-base caption">Choose one of our friendly prices that match what you want</p>
+          </div>
+
+          <div class="flex flex-wrap">
+            <div class="sm:p-4 px-0 py-4 lg:w-1/3 mx-auto card">
+              <div class="h-full py-8 px-11 rounded-2xl bg-white card-outline flex flex-col relative overflow-hidden">
+                <h2 class="text-xl tracking-wide mb-3 font-medium price-title">Moon</h2>
+                <h2 class="text-4xl tracking-wide flex items-center mb-3 font-medium text-medium-black">
+                  <span>20k</span>
+                  <span class="text-base ml-2.5 font-normal price-month price-month">/Reading</span>
+                </h2>
+                <p class="font-normal text-base tracking-wide mb-10 text-medium-white">suitable for those of you who are less confident to talk directly</p>
+                <div class="price-list-3-7">
+                  <p class="flex tracking-wide items-center text-sm mb-7 check-3-7">
+                    <span class="w-4 h-4 mr-3 inline-flex items-center justify-center flex-shrink-0"> <img src="http://api.elements.buildwithangga.com/storage/files/2/assets/Content/Content3/Content-3-4.png" alt="" /> </span>1 Reading Tarot
+                    (Photo Card)
+                  </p>
+                  <p class="flex tracking-wide items-center text-sm mb-7 check-3-7">
+                    <span class="w-4 h-4 mr-3 inline-flex items-center justify-center flex-shrink-0"> <img src="http://api.elements.buildwithangga.com/storage/files/2/assets/Content/Content3/Content-3-4.png" alt="" /> </span>3 Questions
+                  </p>
+                  <p class="flex tracking-wide items-center text-sm mb-7 check-3-7">
+                    <span class="w-4 h-4 mr-3 inline-flex items-center justify-center flex-shrink-0"> <img src="http://api.elements.buildwithangga.com/storage/files/2/assets/Content/Content3/Content-3-4.png" alt="" /> </span>Fast Respon
+                  </p>
+                  <p class="flex tracking-wide items-center text-sm mb-7 check-3-7">
+                    <span class="w-4 h-4 mr-3 inline-flex items-center justify-center flex-shrink-0"> <img src="http://api.elements.buildwithangga.com/storage/files/2/assets/Content/Content3/Content-3-4.png" alt="" /> </span>Reading Via
+                    Chat/VN Whatsapp
+                  </p>
+                  <p class="flex tracking-wide items-center text-sm mb-7 no-check-3-7">
+                    <span class="w-4 h-4 mr-3 inline-flex items-center justify-center flex-shrink-0"> <img src="http://api.elements.buildwithangga.com/storage/files/2/assets/Content/Content3/Content-3-3.png" alt="" /> </span>
+                    Reading Via Video Call Whatsapp
+                  </p>
+                  <p class="flex tracking-wide items-center text-sm mb-7 no-check-3-7">
+                    <span class="w-4 h-4 mr-3 inline-flex items-center justify-center flex-shrink-0"> <img src="http://api.elements.buildwithangga.com/storage/files/2/assets/Content/Content3/Content-3-3.png" alt="" /> </span>Meetup
+                  </p>
+                </div>
+                <button class="btn-outline font-medium rounded-lg flex justify-center items-center tracking-wide py-4 w-full focus:outline-none">
+                  <a href="https://wa.me/6285740334127?text=Hello,%20I%20am%20interested%20in%20moon%20service,%20what%20should%20i%20do%20next?" target="_blank">Choose Plan</a>
+                </button>
+              </div>
+            </div>
+            <div class="sm:p-4 px-0 py-4 lg:w-1/3 mx-auto card">
+              <div class="h-full py-8 px-11 rounded-2xl bg-white card-outline flex flex-col relative overflow-hidden">
+                <h2 class="text-xl tracking-wide mb-3 font-medium price-title">Sun</h2>
+                <h2 class="text-4xl tracking-wide flex items-center mb-3 font-medium text-medium-black">
+                  <span>50k</span>
+                  <span class="text-base ml-2.5 font-normal price-month">/Reading</span>
+                </h2>
+                <p class="font-normal text-base tracking-wide mb-10 text-medium-white">suitable for those of you who want to consult directly via video call</p>
+                <div class="price-list-3-7">
+                  <p class="flex tracking-wide items-center text-sm mb-7 check-3-7">
+                    <span class="w-4 h-4 mr-3 inline-flex items-center justify-center flex-shrink-0"> <img src="http://api.elements.buildwithangga.com/storage/files/2/assets/Content/Content3/Content-3-4.png" alt="" /> </span>1 Reading Tarot
+                    (Live Reading)
+                  </p>
+                  <p class="flex tracking-wide items-center text-sm mb-7 check-3-7">
+                    <span class="w-4 h-4 mr-3 inline-flex items-center justify-center flex-shrink-0"> <img src="http://api.elements.buildwithangga.com/storage/files/2/assets/Content/Content3/Content-3-4.png" alt="" /> </span>3 Questions
+                  </p>
+                  <p class="flex tracking-wide items-center text-sm mb-7 check-3-7">
+                    <span class="w-4 h-4 mr-3 inline-flex items-center justify-center flex-shrink-0"> <img src="http://api.elements.buildwithangga.com/storage/files/2/assets/Content/Content3/Content-3-4.png" alt="" /> </span>Fast Respon
+                  </p>
+                  <p class="flex tracking-wide items-center text-sm mb-7 check-3-7">
+                    <span class="w-4 h-4 mr-3 inline-flex items-center justify-center flex-shrink-0"> <img src="http://api.elements.buildwithangga.com/storage/files/2/assets/Content/Content3/Content-3-4.png" alt="" /> </span>Reading Via
+                    Chat/VN Whatsapp
+                  </p>
+                  <p class="flex tracking-wide items-center text-sm mb-7 check-3-7">
+                    <span class="w-4 h-4 mr-3 inline-flex items-center justify-center flex-shrink-0"> <img src="http://api.elements.buildwithangga.com/storage/files/2/assets/Content/Content3/Content-3-4.png" alt="" /> </span>Reading Via
+                    Video Call Whatsapp
+                  </p>
+                  <p class="flex tracking-wide items-center text-sm mb-7 no-check-3-7">
+                    <span class="w-4 h-4 mr-3 inline-flex items-center justify-center flex-shrink-0"> <img src="http://api.elements.buildwithangga.com/storage/files/2/assets/Content/Content3/Content-3-3.png" alt="" /> </span>Meetup
+                  </p>
+                </div>
+                <button class="btn-outline font-medium rounded-lg flex justify-center items-center tracking-wide py-4 w-full focus:outline-none">
+                  <a href="https://wa.me/6285740334127?text=Hello,%20I%20am%20interested%20in%20sun%20service,%20what%20should%20i%20do%20next?" target="_blank">Choose Plan</a>
+                </button>
+              </div>
+            </div>
+            <div class="sm:p-4 px-0 py-4 lg:w-1/3 mx-auto card">
+              <div class="h-full py-8 px-11 rounded-2xl card-outline flex flex-col relative overflow-hidden bg-medium-black">
+                <h2 class="text-xl tracking-wide mb-3 font-medium text-white">Star</h2>
+                <h2 class="text-4xl tracking-wide flex items-center mb-3 font-medium text-white">
+                  <span>100k</span>
+                  <span class="text-base ml-2.5 font-normal" style="color: #8997b5">/2 Hour</span>
+                </h2>
+                <p class="font-normal text-base tracking-wide mb-10" style="color: #7987a6">Suitable for those of you who want to consult directly with me</p>
+                <div class="text-white">
+                  <p class="flex tracking-wide items-center text-sm mb-7">
+                    <span class="w-4 h-4 mr-3 inline-flex items-center justify-center flex-shrink-0"> <img src="http://api.elements.buildwithangga.com/storage/files/2/assets/Content/Content3/Content-3-6.png" alt="" /> </span>1 Reading Tarot
+                    (Live Reading)
+                  </p>
+                  <p class="flex tracking-wide items-center text-sm mb-7">
+                    <span class="w-4 h-4 mr-3 inline-flex items-center justify-center flex-shrink-0"> <img src="http://api.elements.buildwithangga.com/storage/files/2/assets/Content/Content3/Content-3-6.png" alt="" /> </span>Free Questions
+                  </p>
+                  <p class="flex tracking-wide items-center text-sm mb-7">
+                    <span class="w-4 h-4 mr-3 inline-flex items-center justify-center flex-shrink-0"> <img src="http://api.elements.buildwithangga.com/storage/files/2/assets/Content/Content3/Content-3-6.png" alt="" /> </span>Fast Respon
+                  </p>
+                  <p class="flex tracking-wide items-center text-sm mb-7">
+                    <span class="w-4 h-4 mr-3 inline-flex items-center justify-center flex-shrink-0"> <img src="http://api.elements.buildwithangga.com/storage/files/2/assets/Content/Content3/Content-3-6.png" alt="" /> </span>Reading Via
+                    Chat/VN Whatsapp
+                  </p>
+                  <p class="flex tracking-wide items-center text-sm mb-7">
+                    <span class="w-4 h-4 mr-3 inline-flex items-center justify-center flex-shrink-0"> <img src="http://api.elements.buildwithangga.com/storage/files/2/assets/Content/Content3/Content-3-6.png" alt="" /> </span>Reading Via
+                    Video Call Whatsapp
+                  </p>
+                  <p class="flex tracking-wide items-center text-sm mb-7">
+                    <span class="w-4 h-4 mr-3 inline-flex items-center justify-center flex-shrink-0"> <img src="http://api.elements.buildwithangga.com/storage/files/2/assets/Content/Content3/Content-3-6.png" alt="" /> </span>Meetup
+                  </p>
+                </div>
+                <button class="btn-fill text-white font-medium rounded-lg flex justify-center items-center tracking-wide py-4 w-full focus:outline-none">
+                  <a href="https://wa.me/6285740334127?text=Hello,%20I%20am%20interested%20in%20star%20service,%20what%20should%20i%20do%20next?" target="_blank">Choose Plan</a>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Step -->
+    <section id="step" class="h-full w-full px-8 py-20" style="background-color: #141432">
+      <style scoped>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+        .content-3-3 .circle {
+          background-color: #fecd70;
+        }
+
+        .content-3-3 .caption {
+          color: #999999;
+        }
+
+        .content-3-3 .btn-fill {
+          background-color: #fecd70;
+          transition: 0.3s;
+        }
+
+        .content-3-3 .btn-fill:hover {
+          background-color: #fecd70;
+          transition: 0.3s;
+        }
+
+        .backgound-col {
+          background-color: #fecd70;
+        }
+      </style>
+      <div class="content-3-3 flex lg:flex-row flex-col items-center" style="font-family: 'Poppins', sans-serif">
+        <!-- Left Column -->
+        <div class="w-full lg:w-1/2 text-center justify-center flex lg:mb-0 mb-12">
+          <img id="hero" src="http://api.elements.buildwithangga.com/storage/files/2/assets/Content/Content3/Content-3-1.png" alt="" />
+        </div>
+        <!-- Right Column -->
+        <div class="lg:w-1/2 w-full flex flex-col lg:items-start items-center lg:text-left text-center">
+          <h2 class="md:text-4xl text-3xl text-white font-semibold mb-10 tracking-tight">How to consult ?</h2>
+          <ul>
+            <li class="mb-8">
+              <h4 class="font-medium text-2xl text-white mb-5 flex lg:flex-row flex-col items-center lg:justify-start justify-center">
+                <span class="circle h-12 w-12 text-xl flex items-center justify-center lg:mr-5 lg:mb-0 mb-5 text-white rounded-full">1</span>
+                Find Your Favorite Service
+              </h4>
+              <p class="text-base leading-7 tracking-wide caption">
+                Please search your favorite service<br class="sm:inline-block hidden" />
+                on the service menu
+              </p>
+            </li>
+            <li class="mb-8">
+              <h4 class="font-medium text-2xl text-white mb-5 flex lg:flex-row flex-col items-center lg:justify-start justify-center">
+                <span class="circle h-12 w-12 text-xl flex items-center justify-center lg:mr-5 lg:mb-0 mb-5 text-white rounded-full">2</span>
+                Chat Admin
+              </h4>
+              <p class="text-base leading-7 tracking-wide caption">After you find your best service, please <br class="sm:inline-block hidden" />click "choose plan" to contact admin</p>
+            </li>
+            <li class="mb-16">
+              <h4 class="font-medium text-2xl text-white mb-5 flex lg:flex-row flex-col items-center lg:justify-start justify-center">
+                <span class="circle h-12 w-12 text-xl flex items-center justify-center lg:mr-5 lg:mb-0 mb-5 text-white rounded-full">3</span>
+                Consult Process
+              </h4>
+              <p class="text-base leading-7 tracking-wide caption">After contacting the admin and meeting the <br class="sm:inline-block hidden" />requirements, Consultation process will begin</p>
+            </li>
+          </ul>
+          <h2 class="md:text-4xl text-3xl text-white font-semibold mb-10 tracking-tight">What can't you ask here ?</h2>
+          <ul>
+            <li class="mb-16">
+              <p class="text-base leading-7 tracking-wide caption">Politics, physical health, spesific questions (about time, who, where)</p>
+            </li>
+          </ul>
+          <!-- <button class="btn-fill px-10 py-4 text-base text-white font-semibold rounded-xl cursor-pointer focus:outline-none tracking-wide">Learn More</button> -->
+        </div>
+      </div>
+    </section>
+    <!-- footer -->
+    <section class="footer font-display">
+      <style>
+        @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Red+Hat+Display:wght@400;500;600;700&display=swap");
+
+        .font-display {
+          font-family: "Red Hat Display", sans-serif;
+        }
+
+        :root {
+          --light-1: #ffffff;
+          --light-2: #f9fafe;
+          --light-3: #fafafd;
+
+          --dark-1: #16171c;
+          --dark-2: #494c57;
+          --dark-3: #171717;
+          --dark-4: #202020;
+          --dark-5: #151515;
+          --dark-6: #0f0f0f;
+
+          --subtleGrey-1: #f8f8fc;
+          --subtleGrey-2: #989db1;
+          --subtleGrey-3: #8d8f98;
+          --subtleGrey-4: #9a9a9a;
+          --subtleGrey-5: #ced2de;
+
+          --subtleBlue-1: #34b3ff;
+          --subtleBlue-2: #518cff;
+          --subtleBlue-3: #4376db;
+          --subtleBlue-4: #cce3ff;
+
+          --subtleGreen-1: #00b67a;
+
+          --lemonYellow: #f2ff57;
+          --deepGrey: #2e2e2e;
+          --navy-1: #313e60;
+          --navy-2: #1c3055;
+        }
+
+        .text-light-1 {
+          color: var(--light-1);
+        }
+
+        .text-light-2 {
+          color: var(--light-2);
+        }
+
+        .text-light-3 {
+          color: var(--light-3);
+        }
+
+        .text-dark-1 {
+          color: var(--dark-1);
+        }
+
+        .text-dark-2 {
+          color: var(--dark-2);
+        }
+
+        .text-dark-3 {
+          color: var(--dark-3);
+        }
+
+        .text-dark-4 {
+          color: var(--dark-4);
+        }
+
+        .text-dark-5 {
+          color: var(--dark-5);
+        }
+
+        .text-subtleBlue-1 {
+          color: var(--subtleBlue-1);
+        }
+
+        .text-subtleBlue-4 {
+          color: var(--subtleBlue-4);
+        }
+
+        .text-subtleGrey-1 {
+          color: var(--ssubtleGrey-1);
+        }
+
+        .text-subtleGrey-2 {
+          color: var(--subtleGrey-2);
+        }
+
+        .text-subtleGrey-3 {
+          color: var(--subtleGrey-3);
+        }
+
+        .text-subtleGrey-4 {
+          color: var(--subtleGrey-4);
+        }
+
+        .text-subtleGrey-5 {
+          color: var(--subtleGrey-5);
+        }
+
+        .bg-light-1 {
+          background-color: var(--light-1);
+        }
+
+        .bg-light-2 {
+          background-color: var(--light-2);
+        }
+
+        .bg-light-3 {
+          background-color: var(--light-3);
+        }
+
+        .bg-subtleGreen {
+          background-color: var(--subtleGreen-1);
+        }
+
+        .bg-subtleGrey-1 {
+          background-color: var(--subtleGrey-1);
+        }
+
+        .bg-deepGrey {
+          background-color: var(--deepGrey);
+        }
+
+        .bg-lemonYellow {
+          background-color: var(--lemonYellow);
+        }
+
+        .bg-navy-1 {
+          background-color: var(--navy-1);
+        }
+
+        .w-screen-custom {
+          width: 1560px;
+        }
+
+        .ring-subtleGrey-3 {
+          --tw-ring-opacity: 1;
+          --tw-ring-color: rgba(141, 143, 152, var(--tw-ring-opacity));
+        }
+
+        .text-px20 {
+          font-size: 20px;
+        }
+
+        .text-px32 {
+          font-size: 32px;
+        }
+
+        .mb-18 {
+          margin-bottom: 72px;
+        }
+
+        .ml-18 {
+          margin-left: 72px;
+        }
+
+        .mt-18 {
+          margin-top: 72px;
+        }
+
+        .-mt-13 {
+          margin-top: -52px;
+        }
+
+        .bg-card-professional {
+          background: linear-gradient(180deg, #518cff 0%, #4376db 100%);
+        }
+        .text-color {
+          color: #fecd70;
+        }
+      </style>
+      <footer class="bg-navy-1">
+        <div class="max-w-screen-2xl px-4 mx-auto py-14 lg:px-24">
+          <div class="grid lg:grid-cols-12">
+            <div class="md:col-span-12 lg:col-span-6">
+              <h2 class="md:text-4xl text-3xl text-white font-semibold mb-10 tracking-tight font-bold">WitchTia</h2>
+              <!-- <svg width="128" height="26" viewBox="0 0 128 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M19.708 10.926C19.708 12.2607 19.474 13.5087 19.006 14.67C18.5553 15.814 17.9227 16.802 17.108 17.634C16.3107 18.4487 15.3487 19.0987 14.222 19.584C13.0953 20.052 11.882 20.286 10.582 20.286C9.23 20.286 7.96467 20.0433 6.786 19.558C5.60733 19.0727 4.58467 18.414 3.718 17.582C2.86867 16.7327 2.19267 15.736 1.69 14.592C1.18733 13.448 0.936 12.2173 0.936 10.9C0.936 9.58267 1.17867 8.352 1.664 7.208C2.16667 6.064 2.84267 5.076 3.692 4.244C4.55867 3.39467 5.58133 2.72733 6.76 2.242C7.93867 1.75667 9.19533 1.514 10.53 1.514C12.038 1.514 13.4593 1.81733 14.794 2.424C16.1287 3.03067 17.2293 3.86267 18.096 4.92L15.47 7.338C14.8287 6.57533 14.0833 5.99467 13.234 5.596C12.402 5.18 11.5007 4.972 10.53 4.972C9.71533 4.972 8.95267 5.128 8.242 5.44C7.54867 5.73467 6.942 6.15067 6.422 6.688C5.91933 7.208 5.52067 7.832 5.226 8.56C4.94867 9.27067 4.81 10.0507 4.81 10.9C4.81 11.7493 4.95733 12.538 5.252 13.266C5.54667 13.994 5.954 14.6267 6.474 15.164C6.994 15.684 7.60933 16.1 8.32 16.412C9.048 16.7067 9.81933 16.854 10.634 16.854C11.9167 16.854 13.0173 16.4987 13.936 15.788C14.872 15.0773 15.4527 14.1673 15.678 13.058H10.296V9.782H19.708V10.926ZM24.0746 4.842C23.5199 4.842 23.0432 4.64267 22.6446 4.244C22.2459 3.84533 22.0466 3.36867 22.0466 2.814C22.0466 2.25933 22.2459 1.78267 22.6446 1.384C23.0432 0.985333 23.5199 0.785999 24.0746 0.785999C24.6292 0.785999 25.1059 0.985333 25.5046 1.384C25.9032 1.78267 26.1026 2.25933 26.1026 2.814C26.1026 3.36867 25.9032 3.84533 25.5046 4.244C25.1059 4.64267 24.6292 4.842 24.0746 4.842ZM25.8686 6.454V20H22.3066V6.454H25.8686ZM33.3342 20L27.5102 6.454H31.3842L35.1022 15.476L38.7942 6.454H42.5902L36.7662 20H33.3342ZM54.2663 18.7L47.9743 6.61V20H44.4903V1.8H49.3263L54.3183 11.576L59.3103 1.8H64.1463V20H60.5843V6.636L54.2663 18.7ZM66.82 13.24C66.82 12.252 67.002 11.3333 67.366 10.484C67.7473 9.61733 68.2587 8.872 68.9 8.248C69.5587 7.60667 70.33 7.104 71.214 6.74C72.098 6.376 73.0427 6.194 74.048 6.194C75.0533 6.194 75.998 6.376 76.882 6.74C77.766 7.104 78.5287 7.60667 79.17 8.248C79.8287 8.872 80.34 9.61733 80.704 10.484C81.0853 11.3333 81.276 12.252 81.276 13.24C81.276 14.228 81.0853 15.1553 80.704 16.022C80.34 16.8713 79.8287 17.608 79.17 18.232C78.5287 18.856 77.766 19.35 76.882 19.714C75.998 20.078 75.0533 20.26 74.048 20.26C73.0427 20.26 72.098 20.078 71.214 19.714C70.33 19.35 69.5587 18.856 68.9 18.232C68.2587 17.608 67.7473 16.8713 67.366 16.022C67.002 15.1553 66.82 14.228 66.82 13.24ZM74.048 17.166C75.088 17.166 75.972 16.7847 76.7 16.022C77.428 15.2593 77.792 14.332 77.792 13.24C77.792 12.1307 77.428 11.1947 76.7 10.432C75.972 9.66933 75.088 9.288 74.048 9.288C73.008 9.288 72.124 9.66933 71.396 10.432C70.668 11.1947 70.304 12.1307 70.304 13.24C70.304 14.332 70.668 15.2593 71.396 16.022C72.124 16.7847 73.008 17.166 74.048 17.166ZM83.7255 20V6.454H87.2875V7.52C87.8075 7.08667 88.3795 6.75733 89.0035 6.532C89.6448 6.30667 90.3382 6.194 91.0835 6.194C92.6435 6.194 93.9262 6.69667 94.9315 7.702C95.9368 8.70733 96.4395 9.99867 96.4395 11.576V20H92.8775V12.096C92.8775 11.2467 92.6175 10.562 92.0975 10.042C91.5948 9.522 90.9188 9.262 90.0695 9.262C89.4802 9.262 88.9428 9.38333 88.4575 9.626C87.9895 9.85133 87.5995 10.1807 87.2875 10.614V20H83.7255ZM111.54 18.31C110.708 18.986 109.85 19.48 108.966 19.792C108.099 20.104 107.128 20.26 106.054 20.26C105.031 20.26 104.069 20.078 103.168 19.714C102.284 19.35 101.512 18.856 100.854 18.232C100.212 17.608 99.7009 16.8713 99.3196 16.022C98.9556 15.1553 98.7736 14.228 98.7736 13.24C98.7736 12.2693 98.9469 11.3593 99.2936 10.51C99.6576 9.64333 100.152 8.898 100.776 8.274C101.4 7.63267 102.136 7.13 102.986 6.766C103.852 6.402 104.771 6.22 105.742 6.22C106.695 6.22 107.579 6.41067 108.394 6.792C109.226 7.156 109.936 7.65867 110.526 8.3C111.132 8.94133 111.6 9.71267 111.93 10.614C112.276 11.498 112.45 12.46 112.45 13.5V14.436H102.362C102.604 15.2853 103.072 15.97 103.766 16.49C104.459 17.01 105.274 17.27 106.21 17.27C106.799 17.27 107.354 17.1747 107.874 16.984C108.394 16.7933 108.836 16.5247 109.2 16.178L111.54 18.31ZM105.664 9.158C104.849 9.158 104.147 9.40933 103.558 9.912C102.968 10.3973 102.561 11.056 102.336 11.888H108.966C108.74 11.0907 108.324 10.4407 107.718 9.938C107.128 9.418 106.444 9.158 105.664 9.158ZM118.05 20.624L118.258 20.13L112.98 6.454H116.906L120.26 15.684L124.108 6.454H127.956L121.716 21.066C121.023 22.6953 120.217 23.8567 119.298 24.55C118.379 25.2433 117.183 25.59 115.71 25.59C115.398 25.59 115.095 25.5727 114.8 25.538C114.523 25.5207 114.297 25.486 114.124 25.434V22.366C114.297 22.4007 114.479 22.4267 114.67 22.444C114.861 22.4613 115.095 22.47 115.372 22.47C116.013 22.47 116.551 22.314 116.984 22.002C117.435 21.69 117.79 21.2307 118.05 20.624Z"
+                  fill="#FAFAFD"
+                />
+              </svg> -->
+
+              <!-- social media icons -->
+              <div class="flex flex-row items-center mt-14">
+                <!-- <a href="#">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="mr-6" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M0 1.719C0 0.7695 0.789 0 1.7625 0H22.2375C23.211 0 24 0.7695 24 1.719V22.281C24 23.2305 23.211 24 22.2375 24H1.7625C0.789 24 0 23.2305 0 22.281V1.719ZM7.4145 20.091V9.2535H3.813V20.091H7.4145ZM5.6145 7.773C6.87 7.773 7.6515 6.942 7.6515 5.901C7.629 4.8375 6.8715 4.029 5.6385 4.029C4.4055 4.029 3.6 4.839 3.6 5.901C3.6 6.942 4.3815 7.773 5.5905 7.773H5.6145ZM12.9765 20.091V14.0385C12.9765 13.7145 13.0005 13.3905 13.0965 13.1595C13.356 12.513 13.9485 11.8425 14.9445 11.8425C16.248 11.8425 16.7685 12.8355 16.7685 14.2935V20.091H20.37V13.875C20.37 10.545 18.594 8.997 16.224 8.997C14.313 8.997 13.4565 10.047 12.9765 10.7865V10.824H12.9525C12.9605 10.8115 12.9685 10.799 12.9765 10.7865V9.2535H9.3765C9.4215 10.2705 9.3765 20.091 9.3765 20.091H12.9765Z"
+                      fill="#FAFAFD"
+                    />
+                  </svg>
+                </a> -->
+                <!-- <a href="#">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="mr-6" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_431:1901)">
+                      <path
+                        d="M23.9991 12.0733C23.9991 5.40429 18.6261 -0.00170898 11.9991 -0.00170898C5.36909 -0.000208984 -0.00390625 5.40429 -0.00390625 12.0748C-0.00390625 18.1003 4.38509 23.0953 10.1211 24.0013V15.5638H7.07609V12.0748H10.1241V9.41229C10.1241 6.38679 11.9166 4.71579 14.6571 4.71579C15.9711 4.71579 17.3436 4.95129 17.3436 4.95129V7.92129H15.8301C14.3406 7.92129 13.8756 8.85279 13.8756 9.80829V12.0733H17.2026L16.6716 15.5623H13.8741V23.9998C19.6101 23.0938 23.9991 18.0988 23.9991 12.0733Z"
+                        fill="#FAFAFD"
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_431:1901">
+                        <rect width="24" height="24" fill="white" />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                </a> -->
+                <!-- <a href="#">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="mr-6" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M7.539 22.5001C16.596 22.5001 21.5505 14.9956 21.5505 8.49906C21.5505 8.28906 21.5505 8.07606 21.5415 7.86606C22.5061 7.16779 23.3386 6.30329 24 5.31306C23.099 5.71034 22.1441 5.97217 21.1665 6.09006C22.1963 5.47452 22.9676 4.50602 23.337 3.36456C22.3695 3.93775 21.3105 4.34012 20.2065 4.55406C19.4643 3.7636 18.4821 3.23994 17.4121 3.0642C16.3421 2.88846 15.2441 3.07045 14.288 3.58197C13.3319 4.09349 12.5712 4.90601 12.1237 5.89365C11.6761 6.8813 11.5668 7.98896 11.8125 9.04506C9.85461 8.94689 7.93922 8.43826 6.19056 7.55218C4.4419 6.66609 2.89903 5.42233 1.662 3.90156C1.03401 4.98619 0.842361 6.26916 1.12597 7.48996C1.40958 8.71076 2.14718 9.77786 3.189 10.4746C2.40831 10.448 1.64478 10.2384 0.96 9.86256V9.93006C0.961346 11.0663 1.35496 12.1672 2.07431 13.0467C2.79366 13.9262 3.79462 14.5304 4.908 14.7571C4.48539 14.8735 4.04884 14.9315 3.6105 14.9296C3.30148 14.9305 2.99307 14.9019 2.6895 14.8441C3.00418 15.8221 3.61691 16.6773 4.44187 17.2898C5.26683 17.9022 6.2627 18.2413 7.29 18.2596C5.54483 19.6303 3.3891 20.3737 1.17 20.3701C0.778981 20.3717 0.388235 20.3492 0 20.3026C2.25227 21.7385 4.86795 22.5009 7.539 22.5001Z"
+                      fill="#FAFAFD"
+                    />
+                  </svg>
+                </a> -->
+                <a href="https://www.instagram.com/jahzifathia/" target="_blank">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="mr-6" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M10.9245 2.163H12.0015C15.2055 2.163 15.585 2.1735 16.8495 2.232C18.0195 2.2845 18.6555 2.481 19.0785 2.6445C19.638 2.862 20.0385 3.123 20.4585 3.543C20.8785 3.963 21.138 4.362 21.3555 4.923C21.5205 5.3445 21.7155 5.9805 21.768 7.1505C21.8265 8.415 21.8385 8.7945 21.8385 11.997C21.8385 15.1995 21.8265 15.5805 21.768 16.845C21.7155 18.015 21.519 18.6495 21.3555 19.0725C21.1631 19.5935 20.856 20.0647 20.457 20.451C20.037 20.871 19.638 21.1305 19.077 21.348C18.657 21.513 18.021 21.708 16.8495 21.762C15.585 21.819 15.2055 21.8325 12.0015 21.8325C8.7975 21.8325 8.4165 21.819 7.152 21.762C5.982 21.708 5.3475 21.513 4.9245 21.348C4.40325 21.1559 3.93169 20.8494 3.5445 20.451C3.14513 20.0641 2.83758 19.5925 2.6445 19.071C2.481 18.6495 2.2845 18.0135 2.232 16.8435C2.175 15.579 2.163 15.1995 2.163 11.994C2.163 8.79 2.175 8.412 2.232 7.1475C2.286 5.9775 2.481 5.3415 2.646 4.9185C2.8635 4.359 3.1245 3.9585 3.5445 3.5385C3.9645 3.1185 4.3635 2.859 4.9245 2.6415C5.3475 2.4765 5.982 2.2815 7.152 2.2275C8.259 2.1765 8.688 2.1615 10.9245 2.16V2.163ZM17.8554 4.26461C18.0301 4.19225 18.2174 4.155 18.4065 4.155C18.7884 4.155 19.1547 4.30671 19.4247 4.57677C19.6948 4.84682 19.8465 5.21309 19.8465 5.595C19.8465 5.97691 19.6948 6.34318 19.4247 6.61323C19.1547 6.88329 18.7884 7.035 18.4065 7.035C18.2174 7.035 18.0301 6.99775 17.8554 6.92539C17.6807 6.85302 17.522 6.74695 17.3883 6.61323C17.2545 6.47952 17.1485 6.32077 17.0761 6.14606C17.0037 5.97135 16.9665 5.7841 16.9665 5.595C16.9665 5.4059 17.0037 5.21864 17.0761 5.04394C17.1485 4.86923 17.2545 4.71048 17.3883 4.57677C17.522 4.44305 17.6807 4.33698 17.8554 4.26461ZM9.61347 6.27921C10.3723 5.97523 11.1841 5.82525 12.0015 5.838C13.6193 5.86324 15.1623 6.52363 16.2975 7.67662C17.4326 8.82962 18.0689 10.3827 18.0689 12.0007C18.0689 13.6188 17.4326 15.1719 16.2975 16.3249C15.1623 17.4779 13.6193 18.1383 12.0015 18.1635C11.1841 18.1763 10.3723 18.0263 9.61347 17.7223C8.85459 17.4183 8.16377 16.9664 7.58123 16.3929C6.99868 15.8193 6.53605 15.1356 6.22026 14.3816C5.90448 13.6276 5.74185 12.8182 5.74185 12.0007C5.74185 11.1833 5.90448 10.3739 6.22026 9.61989C6.53605 8.86585 6.99868 8.18216 7.58123 7.60863C8.16377 7.03511 8.85459 6.58319 9.61347 6.27921Z"
+                      fill="#FAFAFD"
+                    />
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M12 0C8.7435 0 8.334 0.015 7.0545 0.072C5.775 0.132 4.9035 0.333 4.14 0.63C3.33914 0.931229 2.61374 1.40374 2.0145 2.0145C1.40411 2.61404 0.931661 3.33936 0.63 4.14C0.333 4.902 0.1305 5.775 0.072 7.05C0.015 8.3325 0 8.7405 0 12.0015C0 15.2595 0.015 15.6675 0.072 16.947C0.132 18.225 0.333 19.0965 0.63 19.86C0.9375 20.649 1.347 21.318 2.0145 21.9855C2.6805 22.653 3.3495 23.064 4.1385 23.37C4.9035 23.667 5.7735 23.8695 7.0515 23.928C8.3325 23.985 8.7405 24 12 24C15.2595 24 15.666 23.985 16.947 23.928C18.2235 23.868 19.098 23.667 19.8615 23.37C20.6618 23.0686 21.3867 22.5961 21.9855 21.9855C22.653 21.318 23.0625 20.649 23.37 19.86C23.6655 19.0965 23.868 18.225 23.928 16.947C23.985 15.6675 24 15.2595 24 12C24 8.7405 23.985 8.3325 23.928 7.0515C23.868 5.775 23.6655 4.902 23.37 4.14C23.0684 3.33934 22.5959 2.61401 21.9855 2.0145C21.3864 1.40351 20.661 0.930968 19.86 0.63C19.095 0.333 18.222 0.1305 16.9455 0.072C15.6645 0.015 15.258 0 11.997 0H12ZM10.9245 2.163H12.0015C15.2055 2.163 15.585 2.1735 16.8495 2.232C18.0195 2.2845 18.6555 2.481 19.0785 2.6445C19.638 2.862 20.0385 3.123 20.4585 3.543C20.8785 3.963 21.138 4.362 21.3555 4.923C21.5205 5.3445 21.7155 5.9805 21.768 7.1505C21.8265 8.415 21.8385 8.7945 21.8385 11.997C21.8385 15.1995 21.8265 15.5805 21.768 16.845C21.7155 18.015 21.519 18.6495 21.3555 19.0725C21.1631 19.5935 20.856 20.0647 20.457 20.451C20.037 20.871 19.638 21.1305 19.077 21.348C18.657 21.513 18.021 21.708 16.8495 21.762C15.585 21.819 15.2055 21.8325 12.0015 21.8325C8.7975 21.8325 8.4165 21.819 7.152 21.762C5.982 21.708 5.3475 21.513 4.9245 21.348C4.40325 21.1559 3.93169 20.8494 3.5445 20.451C3.14513 20.0641 2.83758 19.5925 2.6445 19.071C2.481 18.6495 2.2845 18.0135 2.232 16.8435C2.175 15.579 2.163 15.1995 2.163 11.994C2.163 8.79 2.175 8.412 2.232 7.1475C2.286 5.9775 2.481 5.3415 2.646 4.9185C2.8635 4.359 3.1245 3.9585 3.5445 3.5385C3.9645 3.1185 4.3635 2.859 4.9245 2.6415C5.3475 2.4765 5.982 2.2815 7.152 2.2275C8.259 2.1765 8.688 2.1615 10.9245 2.16V2.163Z"
+                      fill="#FAFAFD"
+                    />
+                    <path
+                      d="M12.0015 7.9995C13.0625 7.9995 14.08 8.42098 14.8303 9.17122C15.5805 9.92146 16.002 10.939 16.002 12C16.002 13.061 15.5805 14.0785 14.8303 14.8288C14.08 15.579 13.0625 16.0005 12.0015 16.0005C10.9405 16.0005 9.92296 15.579 9.17272 14.8288C8.42248 14.0785 8.001 13.061 8.001 12C8.001 10.939 8.42248 9.92146 9.17272 9.17122C9.92296 8.42098 10.9405 7.9995 12.0015 7.9995Z"
+                      fill="#FAFAFD"
+                    />
+                  </svg>
+                </a>
+              </div>
+              <p class="mt-5 text-base font-normal text-light-3">2022 &nbsp; All rights reserved.</p>
+            </div>
+
+            <div class="text-xl md:col-span-4 lg:col-span-2">
+              <div class="mb-4 font-bold text-light-3 text-color">Payments</div>
+              <div class="mb-4">
+                <a href="#services" class="font-normal text-light-3"> Dana Digital Wallet</a>
+              </div>
+              <div class="mb-4">
+                <a href="#services" class="font-normal text-light-3"> BNI/BRI </a>
+              </div>
+            </div>
+
+            <div class="text-xl md:col-span-4 lg:col-span-2">
+              <div class="mb-4 font-bold text-light-3 text-color">Product</div>
+              <div class="mb-4">
+                <a href="#about" class="font-normal text-light-3"> Blog </a>
+              </div>
+              <div class="mb-4">
+                <a href="#services" class="font-normal text-light-3"> Service </a>
+              </div>
+            </div>
+
+            <div class="text-xl md:col-span-4 lg:col-span-2">
+              <div class="mb-4 font-bold text-light-3 text-color">Informations</div>
+              <div class="mb-4">
+                <a href="#about" class="font-normal text-light-3"> About</a>
+              </div>
+              <div class="mb-4">
+                <a href="#benefit" class="font-normal text-light-3"> Benefit</a>
+              </div>
+              <div class="mb-4">
+                <a href="#services" class="font-normal text-light-3"> Service</a>
+              </div>
+              <div class="mb-4">
+                <a href="#step" class="font-normal text-light-3"> Step</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </section>
+  </body>
+</html>
